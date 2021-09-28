@@ -7,23 +7,6 @@ import GlobalStyles from './components/GlobalStyles';
 
 function App() {
 
-  // Fetch steam data on app to prop drill it to diffrerent files
-  // consider using context
-  // TEST FETCH
-  const [dataTest, setDataTest] = useState()
-
-    useEffect(() => {
-      const fetchData = () => {
-
-        fetch("/test")
-        .then((res) => res.json())
-        .then((data) => setDataTest(data))
-      }
-      fetchData()
-    }, [])
-
-    console.log(dataTest)
-
   return (
     <BrowserRouter>
       <GlobalStyles />
@@ -33,7 +16,7 @@ function App() {
           </h1>
         <Switch>
           <Route exact path="/">
-            <HomePage />
+            <HomePage/>
           </Route>
           <Route exact path="/profile">
             Profile page! Show user's steam info! 

@@ -5,15 +5,13 @@ import { UserContext } from "../contexts/UserProvider";
 
 const HomePage = () => {
   const { user, userStatus } = useContext(UserContext);
-  console.log(user);
-  console.log(userStatus)
+
+
+  // import circular loading later (material ui)
 
   return (
     <Wrapper>
-      <p>
-        <a href="http://localhost:8000/api/auth/steam">Sign in</a>
-        Homepage! Where swiping will happen!
-      </p>
+        This is homepage
       <Content>
         {userStatus ? (
           <p>

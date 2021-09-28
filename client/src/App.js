@@ -4,6 +4,8 @@ import styled from "styled-components";
 
 import HomePage from './components/Homepage';
 import GlobalStyles from './components/GlobalStyles';
+import Header from './components/Header';
+import Profile from './components/Profile';
 
 function App() {
 
@@ -11,15 +13,13 @@ function App() {
     <BrowserRouter>
       <GlobalStyles />
         <Main>
-          <h1>
-          hello
-          </h1>
+          <Header />
         <Switch>
           <Route exact path="/">
             <HomePage/>
           </Route>
           <Route exact path="/profile">
-            Profile page! Show user's steam info! 
+            <Profile />
           </Route>
           <Route exact path="/top10">
             top 10 of most liked games within the app. Display steam info with my own like counter data

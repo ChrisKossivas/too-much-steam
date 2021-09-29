@@ -3,20 +3,22 @@ import styled from "styled-components";
 
 import { UserContext } from "../contexts/UserProvider";
 
+import GameDisplay from "./GameDisplay";
+
+
 const HomePage = () => {
-  const { user, userStatus } = useContext(UserContext);
+  const { user, userStatus, singleGame } = useContext(UserContext);
 
 
   // import circular loading later (material ui)
 
   return (
     <Wrapper>
-        This is homepage
       <Content>
         {userStatus ? (
-          <p>
-            {user.displayName}
-          </p>
+          <div>
+          <GameDisplay />
+            </div>
         ) : (
           <div>
             <p>
@@ -24,6 +26,13 @@ const HomePage = () => {
               </p>
           </div>
           )}
+          {userStatus && singleGame === undefined ? (
+            <div>
+              <h2>
+              LOADING...
+              </h2>
+              </div>
+          ) : null}
       </Content>
     </Wrapper>
   );

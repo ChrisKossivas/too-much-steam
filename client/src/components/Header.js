@@ -14,6 +14,7 @@ const Header = () => {
         {userStatus ? (
           <UserWrapper>
             <Navigation>
+            <EachLink to="/">Home</EachLink>
               <EachLink to="/top10">Top 10</EachLink>
               <EachLink to="/profile">Profile</EachLink>
               <EachLink to="/findfriends">FindFriends</EachLink>
@@ -25,6 +26,9 @@ const Header = () => {
               </div>
               <p>{user.displayName}</p>
             </UserInfo>
+            <SignInLink href="http://localhost:8000/logout">
+            log out
+          </SignInLink>
           </UserWrapper>
         ) : (
           <SignInLink href="http://localhost:8000/api/auth/steam">

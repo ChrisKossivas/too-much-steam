@@ -11,13 +11,6 @@ const Profile = () => {
 
   // possibly make a new component for friends
 
-  console.log(user.id)
-  if (gameStatus) {
-
-    console.log(userGames.response.game_count)
-  }
-
-
   return (
     <Wrapper>
         Profile page! Show user's steam info! 
@@ -27,7 +20,7 @@ const Profile = () => {
               {"Hello " + user.displayName}
             </p>
             <p>
-              {"Total Games Owned: " + userGames.response.game_count}
+              {"Total Games Owned: " + userGames.game_count}
             </p>
             <FriendList />
           </div>

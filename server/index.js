@@ -31,6 +31,9 @@ const options = {
 const {
   getTest,
   getUsersDb,
+  getUserDbById,
+  updateAddLike,
+  updateAddDislike,
 } = require("./handlers")
 
 
@@ -54,26 +57,50 @@ passport.deserializeUser(function(obj, done) {
       apiKey: '93B0F23949E72BE7ACA2A771320DB80F'
     },
     function(identifier, profile, done) {
-      process.nextTick(function () {
+      process.nextTick( async function () {
 
+        const client = await new MongoClient(MONGO_URI, options);
+        await client.connect();
 
+        const db = client.db()
+
+        const _id =  profile._json.steamid
 
         const newUserObj = {
           _id: profile._json.steamid, 
           personaname: profile._json.personaname, 
           avatarmedium: profile._json.avatarmedium, 
-          realname: profile._json.realname
+          realname: profile._json.realname,
+          totalGamesLiked: 0,
+          totalGamesDisliked: 0,
+          totalGamesLikedId: [],
+          totalGamesDislikedId: [],
+          friendList: []
         }
-        console.log(newUserObj)
+        // console.log(newUserObj)
+        // newUser.push(newUserObj)
 
+        console.log(typeof steamid)
 
-        newUser.push(newUserObj)
+        db.collection("users").findOne({_id}, async (err, result) => {
+          console.log(result)
+          if (!result) {
+            newUserResult = await db.collection("users").insertOne(newUserObj)
+            return
+          }
+          else {
+            return
+          }
+        })
+
+        // const newUserResult = await db.collection("users").insertOne(newUserObj)
+
 
         profile.identifier = identifier;
         
         
         
-        console.log("user!!", newUser)
+        // console.log("user!!", newUser)
         
         
         return done(null, profile);
@@ -98,7 +125,7 @@ app.use(session({
   cookie: {
   maxAge: 3600000
   }
- }))
+  }))
 
 
 app.use(cors());
@@ -119,8 +146,31 @@ app.use(morgan("tiny"))
     // res.status(200).json(req.user);
     });
 
-app.get('/api/account', (req, res) => {
-  res.status(200).json(req.user);
+app.get('/api/account', async (req, res) => {
+
+  try {
+    if (req.user !== undefined) {
+
+      const _id = req.user._json.steamid
+      const db = req.app.locals.client.db();
+  
+      await db.collection("users").findOne({_id}, async (err, result) => {
+        console.log(result)
+        if (result) {
+          res.status(200).json(result);
+          return
+        }
+        else {
+          res.status(404).json({message: "user does not exist in database"})
+          return
+        }
+      })
+    }
+  }
+  catch (err) {
+    console.log("error!", err)
+  }
+  // res.status(200).json(req.user);
   });
 
 
@@ -145,9 +195,20 @@ app.get('/api/auth/steam/return', passport.authenticate('steam', {failureRedirec
 // TEST ENDPOINT
 app.get("/test", getTest)
 
-// DB TEST ENDPOINT
-app.get("/dbtest", getUsersDb)
 
+// DB ENDPOINTS
+
+// GET all users
+app.get("/db/user", getUsersDb)
+
+// GET user by id
+app.get("/db/user/:_id", getUserDbById)
+
+// PUT update user object with 1++ to total games liked and add the appId to array of games liked
+app.put("/db/user/like/:_id/:appid", updateAddLike)
+
+// PUT update user object with 1++ to total games disliked and add the appId to array of games disliked
+app.put("/db/user/dislike/:_id/:appid", updateAddDislike)
 
 // Catchall endpoint
 app.get("*", (req, res) => {

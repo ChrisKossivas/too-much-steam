@@ -12,7 +12,10 @@ export const UserProvider = ({children}) => {
   const [singleGame, setSingleGame] = useState()
   const [singleGameStatus, setSingleGameStatus] = useState(false)
 
-  // fetch account data
+  const [allUsers, setAllUsers] = useState([])
+  const [allUsersStatus, setAllUsersStatus] = useState(false)
+
+  // fetch user account data
   useEffect(() => {
     
     fetch("/api/account")
@@ -23,12 +26,11 @@ export const UserProvider = ({children}) => {
       console.log("error!!", err)
     })
   }, [])
-
   // fetch all game ids in steam library based on account id
   useEffect(() => {
 
     if (userStatus) {
-      fetch(" http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=93B0F23949E72BE7ACA2A771320DB80F&steamid=76561197999966312&format=json")
+      fetch(" http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=93B0F23949E72BE7ACA2A771320DB80F&steamid=" + `${user._id}` + "&format=json")
       .then((res) => res.json())
       .then((res) => setUserGames(res.response))
       .then(() => setGameStatus(true))
@@ -37,9 +39,9 @@ export const UserProvider = ({children}) => {
       })
     }
 
-  }, [userStatus])
+  }, [userStatus, user._id])
 
-
+  // fetch specific game data
   useEffect(() => {
     if (gameStatus && userStatus) {
 
@@ -53,10 +55,21 @@ export const UserProvider = ({children}) => {
         console.log("error!!", err)
       })
     }
-  }, [gameStatus, userGames.games])
+  }, [gameStatus, userGames.games, userStatus])
+
+  // fetch all users
+  useEffect(() => {
+    fetch("/db/user")
+    .then((res) => res.json())
+    .then((allUsers) => setAllUsers(allUsers.data))
+    .then(() => setAllUsersStatus(true))
+    .catch((err) => {
+      console.log("error!!", err)
+    })
+  }, [])
 
   return (
-    <UserContext.Provider value={{user, userStatus, userGames, gameStatus, singleGame, singleGameStatus}}>
+    <UserContext.Provider value={{user, userStatus, userGames, gameStatus, singleGame, singleGameStatus, allUsers, allUsersStatus}}>
 
     {children}
 

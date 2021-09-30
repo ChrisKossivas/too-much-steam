@@ -6,6 +6,7 @@ import HomePage from './components/Homepage';
 import GlobalStyles from './components/GlobalStyles';
 import Header from './components/Header';
 import Profile from './components/Profile';
+import FindFriends from './components/FindFriends';
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
           </Route>
           <Route exact path="/findfriends">
             Stretch goal! Show potential friends sorted by most liked games in common!
+            <FindFriends />
           </Route>
           <Route exact path="/messagefriend">
             Strech goal! Message friend kind of like facebook messager. Need to probably create it from scratch. Web Socket!

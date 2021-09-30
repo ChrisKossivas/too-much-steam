@@ -6,7 +6,6 @@ import { UserContext } from "./contexts/UserProvider";
 
 const Header = () => {
   const { user, userStatus } = useContext(UserContext);
-
   return (
     <Wrapper>
       <Title>TooMuchSteam!</Title>
@@ -22,7 +21,7 @@ const Header = () => {
 
             <UserInfo>
               <div>
-                <img src={user.photos[1].value} alt="avatarImg" />
+                <img src={user.avatarmedium} alt="avatarImg" />
               </div>
               <p>{user.displayName}</p>
             </UserInfo>

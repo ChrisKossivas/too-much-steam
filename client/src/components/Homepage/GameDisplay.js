@@ -5,9 +5,41 @@ import { UserContext } from "../contexts/UserProvider";
 
 const GameDisplay = () => {
 
-  const { singleGame, singleGameStatus, gameStatus, userGames} = useContext(UserContext);
+  const { singleGame, singleGameStatus, gameStatus, userGames, user} = useContext(UserContext);
 
-  console.log(userGames)
+
+
+  
+  const likeClick = () => {
+    const requestAddLike = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+  };
+
+    fetch("/db/user/like/" + `${user._id}` + "/" + `${singleGame.data.steam_appid}`, requestAddLike)
+    .then((res) => res.json())
+    .then((res) => console.log(res))
+    .catch((err) => {
+      console.log("error!!", err)
+    })
+  }
+
+
+
+  const dislikeClick = () => {
+    const requestAddLike = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+  };
+
+    fetch("/db/user/dislike/" + `${user._id}` + "/" + `${singleGame.data.steam_appid}`, requestAddLike)
+    .then((res) => res.json())
+    .then((res) => console.log(res))
+    .catch((err) => {
+      console.log("error!!", err)
+    })
+  }
+
 
   return (
     <Wrapper>
@@ -18,14 +50,21 @@ const GameDisplay = () => {
             {singleGame.data.name}
           </GameName>
           {userGames.games.map((playTime) => {
-            // console.log(singleGame)
             if (playTime.appid === singleGame.data.steam_appid) {
               return (
-                <HoursPlayed key={playTime.appid}>
+                <div key={playTime.appid}>
+                <HoursPlayed>
                 <p>
                   {"Total Playtime " + Math.round(playTime.playtime_forever / 60) + " Hours!"}
                 </p>
                 </HoursPlayed>
+                <button onClick = {likeClick}>
+                  Like!
+                </button>
+                <button onClick = {dislikeClick}>
+                  dislike!
+                </button>
+                </div>
               )
 
             }

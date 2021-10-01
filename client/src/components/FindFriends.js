@@ -2,30 +2,23 @@ import React, { useState, useEffect, useContext } from "react";
 import styled from 'styled-components'
 
 import { UserContext } from "./contexts/UserProvider";
+import AddFriend from "./AddFriend";
 
 const FindFriends = () => {
 
   const { allUsers, allUsersStatus, user, userStatus } = useContext(UserContext);
 
-  // console.log(user.totalGamesLikedId)
-
-  if (allUsersStatus && userStatus) {
+  // if (allUsersStatus && userStatus) {
     
-    // console.log("logged in User!", user.totalGamesLikedId)
-    allUsers.map((eachUser) => {
-      // console.log("other users!", eachUser.totalGamesLikedId)
+  //   allUsers.map((eachUser) => {
 
-      let newArray = user.totalGamesLikedId.filter(function(item) {
-        return eachUser.totalGamesLikedId.includes(item)
-      })
+  //     let newArray = user.totalGamesLikedId.filter(function(item) {
+  //       return eachUser.totalGamesLikedId.includes(item)
+  //     })
 
-      console.log(newArray.length)
-    })
-    // let array1 = user.totalGamesLikedId.filter(function(item) {
-    //   return !allUsers.totalGamesLikedId.includes(item)
-    // })
-    // console.log(array1)
-  }
+  //     console.log(newArray.length)
+  //   })
+  // }
 
   return (
     <Wrapper>
@@ -53,9 +46,7 @@ const FindFriends = () => {
 
 
               </div>
-              <button>
-                Add Friend
-                </button>
+              <AddFriend friendId={_id} userId={user._id}/>
               </div>
             )
           }

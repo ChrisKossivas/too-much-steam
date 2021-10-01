@@ -34,6 +34,7 @@ const {
   getUserDbById,
   updateAddLike,
   updateAddDislike,
+  updateAddFriend,
 } = require("./handlers")
 
 
@@ -209,6 +210,10 @@ app.put("/db/user/like/:_id/:appid", updateAddLike)
 
 // PUT update user object with 1++ to total games disliked and add the appId to array of games disliked
 app.put("/db/user/dislike/:_id/:appid", updateAddDislike)
+
+// PUT update user object with new friend Id.
+// Needs friend Id and logged in User Id
+app.put("/db/user/addfriend/:_id/:friendid", updateAddFriend)
 
 // Catchall endpoint
 app.get("*", (req, res) => {

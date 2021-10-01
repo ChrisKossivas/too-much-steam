@@ -42,20 +42,23 @@ export const UserProvider = ({children}) => {
   }, [userStatus, user._id])
 
   // fetch specific game data
-  useEffect(() => {
-    if (gameStatus && userStatus) {
+  const fetchGame = () => {
 
-      const randomAppId = userGames.games[Math.floor(Math.random() * (userGames.games.length - 0))].appid
-
-      fetch("https://store.steampowered.com/api/appdetails?appids=" + `${ randomAppId}`)
-      .then((res) => res.json())
-      .then((res) => setSingleGame(res[randomAppId]))
-      .then(() => setSingleGameStatus(true))
-      .catch((err) => {
-        console.log("error!!", err)
-      })
-    }
-  }, [gameStatus, userGames.games, userStatus])
+    // useEffect(() => {
+      // if (gameStatus && userStatus) {
+  
+        const randomAppId = userGames.games[Math.floor(Math.random() * (userGames.games.length - 0))].appid
+  
+        fetch("https://store.steampowered.com/api/appdetails?appids=" + `${ randomAppId}`)
+        .then((res) => res.json())
+        .then((res) => setSingleGame(res[randomAppId]))
+        .then(() => setSingleGameStatus(true))
+        .catch((err) => {
+          console.log("error!!", err)
+        })
+      // }
+    // }, [gameStatus, userGames.games, userStatus])
+  }
 
   // fetch all users
   useEffect(() => {
@@ -69,7 +72,7 @@ export const UserProvider = ({children}) => {
   }, [])
 
   return (
-    <UserContext.Provider value={{user, userStatus, userGames, gameStatus, singleGame, singleGameStatus, allUsers, allUsersStatus}}>
+    <UserContext.Provider value={{user, userStatus, userGames, gameStatus, singleGame, singleGameStatus, allUsers, allUsersStatus, fetchGame, setSingleGame, setSingleGameStatus}}>
 
     {children}
 

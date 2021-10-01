@@ -5,7 +5,6 @@ import { UserContext } from "../contexts/UserProvider";
 
 const DislikeButton = () => {
 
-
   const {
     singleGame,
     user,
@@ -36,8 +35,6 @@ const DislikeButton = () => {
 
 
   }
-
-
 
   return (
     <Wrapper>

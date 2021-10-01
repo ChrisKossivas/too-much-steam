@@ -18,15 +18,32 @@ const getUsersDb = async (req, res) => {
   catch (err) {
     res.status(500).json({
       status: 500,
-      data: req.body,
-      message: err.message,
+      message: "get users error",
   });
   }
 }
 
 const getUserDbById = async (req, res) => {
 
+  try {
+    const _id = req.params._id
+    const db = req.app.locals.client.db();
+    await db.collection("users").findOne({_id}, async (err, result) => {
+      if (result) {
+        res.status(200).json({status: 200, data: result, message: "specifc user by Id!"});
+        return
+      }
+      else {
+        res.status(404).json({status: 404, message: "user does not exist in database"})
+        return
+      }
+    })
+  }
 
+
+  catch (err) {
+    console.log("error!", err);
+  }
 
 }
 

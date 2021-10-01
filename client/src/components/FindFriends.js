@@ -20,11 +20,16 @@ const FindFriends = () => {
   //   })
   // }
 
+  
   return (
     <Wrapper>
       {allUsersStatus && userStatus ? (
         allUsers.map((eachUser) => {
-          if (user._id !== eachUser._id) {
+          const alreadyFriends = user.friendList.filter((friends) => 
+            friends.includes(eachUser._id)
+          )
+          // console.log(alreadyFriends[0])
+          if (user._id !== eachUser._id && alreadyFriends[0] !== eachUser._id) {
             const {personaname, _id, avatarmedium, totalGamesLikedId} = eachUser
             return (
               <div key={_id}>

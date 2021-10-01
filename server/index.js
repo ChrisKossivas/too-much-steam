@@ -1,9 +1,6 @@
 "use strict";
 
 
-// , router = express.Router()
-// , passport = require('passport');
-
 // also get api key and stuff later on hard code it
 
 
@@ -38,10 +35,6 @@ const {
 } = require("./handlers")
 
 
-// replaces database
-
-let newUser = [];
-
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
@@ -51,7 +44,7 @@ passport.deserializeUser(function(obj, done) {
 });
 
 
-  //COPIED!
+  // CHANGE APIKEY TO USE .ENV FILE
     passport.use(new SteamStrategy({
       returnURL: 'http://localhost:8000/api/auth/steam/return',
       realm: 'http://localhost:8000/',
@@ -78,8 +71,6 @@ passport.deserializeUser(function(obj, done) {
           totalGamesDislikedId: [],
           friendList: []
         }
-        // console.log(newUserObj)
-        // newUser.push(newUserObj)
 
         console.log(typeof steamid)
 
@@ -94,14 +85,9 @@ passport.deserializeUser(function(obj, done) {
           }
         })
 
-        // const newUserResult = await db.collection("users").insertOne(newUserObj)
-
 
         profile.identifier = identifier;
         
-        
-        
-        // console.log("user!!", newUser)
         
         
         return done(null, profile);
@@ -115,7 +101,6 @@ passport.deserializeUser(function(obj, done) {
 // server express
 const app = express()
 
-// COPIED!!
 // app.set('views', __dirname + '/views');
 // app.set('view engine', 'ejs');
 
@@ -171,7 +156,6 @@ app.get('/api/account', async (req, res) => {
   catch (err) {
     console.log("error!", err)
   }
-  // res.status(200).json(req.user);
   });
 
 
@@ -183,7 +167,6 @@ app.get('/api/auth/steam', passport.authenticate('steam', {failureRedirect: '/'}
 
   // after successsful login, redirect back to fornt end of app
 app.get('/api/auth/steam/return', passport.authenticate('steam', {failureRedirect: '/'}), function (req, res) {
-  // res.redirect('/api/account')
   res.redirect("http://localhost:3000");
   });
 
@@ -195,6 +178,7 @@ app.get('/api/auth/steam/return', passport.authenticate('steam', {failureRedirec
 
 // TEST ENDPOINT
 app.get("/test", getTest)
+
 
 
 // DB ENDPOINTS

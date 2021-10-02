@@ -159,6 +159,27 @@ app.get('/api/account', async (req, res) => {
   });
 
 
+
+
+// socket.io chat feature
+
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+
+
+
+io.on('connection', function(socket) {
+  console.log("a user connected");
+});
+
+
+
+// This works here idk why it doesn't work in client?
+// const ioS = require("socket.io-client");
+
+
+
+
   // redirect to steam log in page
 app.get('/api/auth/steam', passport.authenticate('steam', {failureRedirect: '/'}), function (req, res) {
   res.redirect('/')
@@ -216,7 +237,8 @@ const setup = async () => {
 }
 setup()
     .then(() => {
-        app.listen(8000, () => console.log(`Listening on port ${8000}`));
+        http.listen(8000, () => console.log(`Listening on port ${8000}`));
+        // http.listen(8001,  () => console.log(`Listening on port ${8001} for chat`))
     })
     .catch((err) => {
         console.log("ERROR! Server!", err);

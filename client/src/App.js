@@ -7,9 +7,13 @@ import GlobalStyles from './components/GlobalStyles';
 import Header from './components/Header';
 import Profile from './components/Profile';
 import FindFriends from './components/FindFriends';
+import Chat from './components/Chat'
+// import io from 'socket.io-client'
 
 function App() {
-
+  // maybe add a counter to the path for route for chat
+  // maybe try doing req.params
+  // slither.io didn't need req.params so maybe try to do more research on it
   return (
     <BrowserRouter>
       <GlobalStyles />
@@ -26,11 +30,13 @@ function App() {
             top 10 of most liked games within the app. Display steam info with my own like counter data
           </Route>
           <Route exact path="/findfriends">
-            Stretch goal! Show potential friends sorted by most liked games in common!
             <FindFriends />
           </Route>
           <Route exact path="/messagefriend">
             Strech goal! Message friend kind of like facebook messager. Need to probably create it from scratch. Web Socket!
+          </Route>
+          <Route exact path="/chat">
+            <Chat />
           </Route>
         </Switch>
         </Main>

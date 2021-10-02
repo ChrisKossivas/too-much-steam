@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import FriendList from "./FriendList";
-
+import ProfileInfo from "./ProfileInfo";
 import { UserContext } from "../contexts/UserProvider";
 
 const Profile = () => {
@@ -35,18 +35,9 @@ const Profile = () => {
 
   return (
     <Wrapper>
-        Profile page! Show user's steam info! 
         {userStatus && gameStatus ? (
           <div>
-            <p>
-              {"Hello " + user.personaname}
-            </p>
-            <p>
-              {"Total Games Owned: " + userGames.game_count}
-            </p>
-            <p>
-              {"Total Games Liked: " + user.totalGamesLiked}
-              </p>
+              {/* <ProfileInfo /> */}
               {/* <div>
                 {gameDisplayStatus ? (
                   <div>
@@ -62,6 +53,7 @@ const Profile = () => {
                 </div>
                 ) : null}
               </div> */}
+              <ProfileInfo />
             <FriendList />
           </div>
         ): (

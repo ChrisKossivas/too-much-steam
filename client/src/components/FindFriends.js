@@ -8,19 +8,23 @@ const FindFriends = () => {
 
   const { allUsers, allUsersStatus, user, userStatus } = useContext(UserContext);
 
-  // if (allUsersStatus && userStatus) {
+  let similarLikes = []
+
+  if (allUsersStatus && userStatus) {
     
-  //   allUsers.map((eachUser) => {
+    allUsers.map((eachUser) => {
 
-  //     let newArray = user.totalGamesLikedId.filter(function(item) {
-  //       return eachUser.totalGamesLikedId.includes(item)
-  //     })
+      let newArray = user.totalGamesLikedId.filter(function(item) {
+        return eachUser.totalGamesLikedId.includes(item)
+      })
 
-  //     console.log(newArray.length)
-  //   })
-  // }
+      similarLikes.push(newArray.length)
 
-  
+      // console.log(newArray.length)
+    })
+  }
+
+  console.log(similarLikes[1])
   return (
     <Wrapper>
       {allUsersStatus && userStatus ? (
@@ -39,12 +43,15 @@ const FindFriends = () => {
               </p>
               <img src={avatarmedium} alt={"profileImg"} />
               <p>
-                { user.totalGamesLikedId.filter(function(item) {
-                  let total = totalGamesLikedId.includes(item)
-        return (
-          total
-          )
-      })}
+                {"Liked Games in Common: " + similarLikes[1]}
+                {/* { user.totalGamesLikedId.filter(function(item) {
+                  let result = totalGamesLikedId.includes(item)
+                  if (result) {
+                    return (
+                      similarLikes[1]
+                      )
+                  }
+                })} */}
                 </p>
               <div>
                 
@@ -63,8 +70,11 @@ const FindFriends = () => {
 }
 
 const Wrapper = styled.div`
-
-
+margin-top: 10px;
+display: flex;
+justify-content: center;
+align-items: center;
+text-align: center;
 `
 
 export default FindFriends

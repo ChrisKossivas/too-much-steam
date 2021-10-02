@@ -13,17 +13,15 @@ const Header = () => {
         {userStatus ? (
           <UserWrapper>
             <Navigation>
+              <div>
+                <img src={user.avatarmedium} alt="avatarImg" />
+              </div>
             <EachLink to="/">Home</EachLink>
               <EachLink to="/top10">Top 10</EachLink>
               <EachLink to="/profile">Profile</EachLink>
               <EachLink to="/findfriends">FindFriends</EachLink>
             </Navigation>
-
             <UserInfo>
-              <div>
-                <img src={user.avatarmedium} alt="avatarImg" />
-              </div>
-              <p>{user.displayName}</p>
             </UserInfo>
             <SignInLink href="http://localhost:8000/logout">
             log out
@@ -39,34 +37,59 @@ const Header = () => {
   );
 };
 
-const EachLink = styled(Link)`
+const Li = styled.li`
 
+
+
+`
+
+const EachLink = styled(Link)`
+@media (min-width: 801px) {
 display: flex;
 justify-content: center;
 margin-right: 10px;
 margin-top: 10px;
+}
+
+@media (max-width: 800px) {
+  margin-left: 15px;
+  display: inline-flex;
+  justify-content: space-evenly;
+  }
 
 `;
 
-const Navigation = styled.div`
+const Navigation = styled.ul`
   /* margin-left: 50px; */
   /* display: inline-flex; */
+  display: table
 `;
 
 const UserWrapper = styled.div`
+@media (min-width: 801px) {
   display: flex;
   align-items: center;
+}
 
+display: inline-flex;
 
 `;
 
 const Wrapper = styled.div`
+@media (min-width: 801px) {
+
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: var(--color-pink);
   width: 100%;
   padding-bottom: 10px;
+}
+
+@media (max-width: 800px) {
+  background: yellow;
+  
+  }
 `;
 const Title = styled.h1`
   margin-left: 15px;

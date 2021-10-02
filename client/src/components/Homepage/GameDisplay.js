@@ -48,7 +48,7 @@ const GameDisplay = () => {
   return (
     <Wrapper>
       {singleGameStatus && singleGame.success === true ? (
-        <div>
+        <GameContent>
           <GameImg src={singleGame.data.header_image} alt={"Specific Game"} />
           <GameName>{singleGame.data.name}</GameName>
           {userGames.games.map((playTime) => {
@@ -70,7 +70,7 @@ const GameDisplay = () => {
               );
             }
           })}
-        </div>
+        </GameContent>
       ) : null}
       {singleGameStatus && singleGame.success === false ? (
         <div>No Game Data to view</div>
@@ -86,6 +86,13 @@ display: inline-flex;
 
 `
 
+const GameContent = styled.div`
+
+/* display: flex;
+justify-content: center; */
+
+`
+
 const HoursPlayed = styled.div`
   text-align: center;
 `;
@@ -93,8 +100,6 @@ const HoursPlayed = styled.div`
 const GameName = styled.p`
   font-size: 30px;
   font-weight: bold;
-  display: flex;
-  justify-content: center;
 `;
 
 const GameImg = styled.img`

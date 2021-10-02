@@ -9,25 +9,24 @@ const FriendList = () => {
   const { allUsers, allUsersStatus, user, userStatus, friends, friendStatus } = useContext(UserContext);
 
 
-
-  console.log(friends)
-
-
-  // try to incorporate mongodb to save friends made from app
+  
   if (friendStatus) {
     const {personaname, avatarmedium} = friends.data
     
     return (
       <Wrapper>
-          <div>
+                <h2>
+          Friend List
+          </h2>
+          <FriendInfo>
+        <FriendImg src={avatarmedium} alt={"friendImg"}/>
       <p>
-        <img src={avatarmedium} alt={"friendImg"}/>
         {personaname}
       </p>
-      <button>
+      <ChatBtn>
         Chat!
-      </button>
-      </div>
+      </ChatBtn>
+      </FriendInfo>
   
       </Wrapper>
     )
@@ -44,13 +43,33 @@ const FriendList = () => {
 
 }
 
+const ChatBtn = styled.button`
+
+font-size: 17px;
+width: 100px;
+
+color: white;
+border-radius: 50px;
+
+background: var( --color-pink) ;
+
+`
+
+const FriendImg = styled.img`
+
+
+`
+
+const FriendInfo = styled.div`
+margin-top: 30px;
+
+display: block;
+text-align: center;
+`
 
 const Wrapper = styled.div`
 
-display: flex;
-justify-content: center;
-
-margin-top: 35vh;
+margin-top: 30vh;
 
 
 `

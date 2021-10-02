@@ -40,11 +40,17 @@ const AddFriend = ({friendId, userId}) => {
 
 const AddFriendBtn = styled.button`
 
+font-size: 17px;
+width: 150px;
+
+color: white;
+border-radius: 50px;
+
+background: var( --color-pink) ;
 
 `
 
 const Wrapper = styled.div`
-
 
 `
 

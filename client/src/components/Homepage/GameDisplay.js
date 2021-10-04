@@ -45,6 +45,8 @@ const GameDisplay = () => {
     setSingleGameStatus,
   ]);
 
+  // console.log(singleGame)
+
   return (
     <Wrapper>
       {singleGameStatus && singleGame.success === true ? (
@@ -73,7 +75,7 @@ const GameDisplay = () => {
         </GameContent>
       ) : null}
       {singleGameStatus && singleGame.success === false ? (
-        <div>No Game Data to view</div>
+        <h2>No Game Data to view</h2>
       ) : null}
     </Wrapper>
   );
@@ -81,31 +83,37 @@ const GameDisplay = () => {
 
 const Btns = styled.div`
 
-display: inline-flex;
-
+display: flex;
+justify-content: center;
 
 `
 
 const GameContent = styled.div`
 
-/* display: flex;
-justify-content: center; */
 
 `
 
 const HoursPlayed = styled.div`
   text-align: center;
+  color: hotpink;
 `;
 
 const GameName = styled.p`
   font-size: 30px;
   font-weight: bold;
+  text-align: center;
 `;
 
 const GameImg = styled.img`
-  width: 350px;
+  /* width: 250px; */
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 85%;
+  /* width: 80%; */
   object-fit: contain;
-  height: 200px;
+  height: 250px;
+  /* border: 2px solid red */
 `;
 
 const Wrapper = styled.div`

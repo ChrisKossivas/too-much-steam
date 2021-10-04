@@ -27,13 +27,13 @@ function App() {
             <Profile />
           </Route>
           <Route exact path="/top10">
-            top 10 of most liked games within the app. Display steam info with my own like counter data
+            top 10 of most liked games within the app.
           </Route>
           <Route exact path="/findfriends">
             <FindFriends />
           </Route>
           <Route exact path="/messagefriend">
-            Strech goal! Message friend kind of like facebook messager. Need to probably create it from scratch. Web Socket!
+            Strech goal!
           </Route>
           <Route exact path="/chat">
             <Chat />

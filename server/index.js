@@ -72,10 +72,7 @@ passport.deserializeUser(function(obj, done) {
           friendList: []
         }
 
-        console.log(typeof steamid)
-
         db.collection("users").findOne({_id}, async (err, result) => {
-          console.log(result)
           if (!result) {
             newUserResult = await db.collection("users").insertOne(newUserObj)
             return
@@ -141,7 +138,6 @@ app.get('/api/account', async (req, res) => {
       const db = req.app.locals.client.db();
   
       await db.collection("users").findOne({_id}, async (err, result) => {
-        console.log(result)
         if (result) {
           res.status(200).json(result);
           return
@@ -164,18 +160,51 @@ app.get('/api/account', async (req, res) => {
 // socket.io chat feature
 
 const http = require('http').Server(app);
-const io = require('socket.io')(http);
-
-
-
-io.on('connection', function(socket) {
-  console.log("a user connected");
+const io = require('socket.io')(http, {
+  transports: ["websocket", "polling"]
 });
 
 
+const users = {};
+io.on('connection', socket => {
+  console.log("CONNECTED!")
+  socket.on("username", username => {
+    // console.log("myUserName!", username)
+    const user = {
+      // name: username,
+      id: socket.id
+    };
+    users[socket.id] = user;
+    io.emit("connected", user)
+    io.emit("users", Object.values(users))
+  })
+  // console.log(users)
+  
+  socket.on('send', (msg) => {
+    io.emit('new-message', {
+      text:  msg.username + " " + msg.value,
+      avatar: msg.avatar,
+      user: users[socket.id]
+    });
+  });
 
-// This works here idk why it doesn't work in client?
-// const ioS = require("socket.io-client");
+
+  // joining rooms for private messaging
+  // socket.on("private-message", (anotherSocketId, msg) => {
+  //   console.log(anotherSocketId)
+  //   console.log(msg)
+  //   socket.to("someroom1").emit("private-message", socket.id);
+  // })
+
+
+
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+    delete users[socket.id]
+    io.emit("disconnected", socket.id)
+  });
+});
 
 
 

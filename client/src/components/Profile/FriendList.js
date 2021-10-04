@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from 'react' 
 import styled from 'styled-components'
-
+import { useHistory } from "react-router";
 import { UserContext } from "../contexts/UserProvider";
 
 const FriendList = () => {
@@ -8,10 +8,16 @@ const FriendList = () => {
 
   const { allUsers, allUsersStatus, user, userStatus, friends, friendStatus } = useContext(UserContext);
 
+  let history = useHistory()
 
-  
+  const clickToChat = () => {
+    history.push("/chat")
+  }
+
+  console.log(friends)
+
   if (friendStatus) {
-    const {personaname, avatarmedium} = friends.data
+    // const {personaname, avatarmedium} = friends.data
     
     return (
       <Wrapper>
@@ -19,13 +25,31 @@ const FriendList = () => {
           Friend List
           </h2>
           <FriendInfo>
-        <FriendImg src={avatarmedium} alt={"friendImg"}/>
+            {friends.map((friend) => {
+              const {personaname, avatarmedium, _id} = friend.data
+              // console.log(avatarmedium)
+
+              return (
+              <span key={_id}>
+              <FriendImg src={avatarmedium} alt={"friendImg"} />
+                <p>
+                  {personaname}
+                </p>
+                <div>
+                <ChatBtn onClick={clickToChat}>
+                  Chat!
+                </ChatBtn>
+                </div>
+              </span>
+              )
+            })}
+        {/* <FriendImg src={avatarmedium} alt={"friendImg"}/>
       <p>
         {personaname}
-      </p>
-      <ChatBtn>
+      </p> */}
+      {/* <ChatBtn onClick={clickToChat}>
         Chat!
-      </ChatBtn>
+      </ChatBtn> */}
       </FriendInfo>
   
       </Wrapper>
@@ -50,7 +74,7 @@ width: 100px;
 
 color: white;
 border-radius: 50px;
-
+margin-bottom: 10px ;
 background: var( --color-pink) ;
 
 `
@@ -69,7 +93,7 @@ text-align: center;
 
 const Wrapper = styled.div`
 
-margin-top: 30vh;
+margin-top: 20vh;
 
 
 `

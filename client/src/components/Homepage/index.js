@@ -21,9 +21,9 @@ const HomePage = () => {
             </div>
         ) : (
           <div>
-            <p>
-            Please log In To Continue
-              </p>
+            <LogInReminder>
+            Please log In To Steam
+              </LogInReminder>
           </div>
           )}
           {userStatus && singleGame === undefined ? (
@@ -38,7 +38,12 @@ const HomePage = () => {
   );
 };
 
+const LogInReminder = styled.h1`
 
+color: hotpink;
+
+
+`
 
 const Content = styled.div`
 

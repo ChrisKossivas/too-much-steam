@@ -4,10 +4,18 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { UserContext } from "./contexts/UserProvider";
 
+import HeaderImg from '../assets/Header1.png'
+
 const Header = () => {
   const { user, userStatus } = useContext(UserContext);
+
+  console.log(HeaderImg)
   return (
-    <Wrapper>
+    <Wrapper
+    style={{
+      backgroundImage: `url(${HeaderImg})`,
+    }}
+    >
       <Title>TooMuchSteam!</Title>
       <div>
         {userStatus ? (
@@ -19,17 +27,17 @@ const Header = () => {
             <EachLink to="/">Home</EachLink>
               <EachLink to="/top10">Top 10</EachLink>
               <EachLink to="/profile">Profile</EachLink>
-              <EachLink to="/findfriends">FindFriends</EachLink>
+              <EachLink to="/findfriends">Find Friends</EachLink>
             </Navigation>
             <UserInfo>
             </UserInfo>
             <SignInLink href="http://localhost:8000/logout">
-            log out
+            Log Out
           </SignInLink>
           </UserWrapper>
         ) : (
           <SignInLink href="http://localhost:8000/api/auth/steam">
-            Sign in
+            Sign in to Steam
           </SignInLink>
         )}
       </div>
@@ -45,24 +53,24 @@ const Li = styled.li`
 
 const EachLink = styled(Link)`
 @media (min-width: 801px) {
-display: flex;
-justify-content: center;
+/* display: inline-flex; */
+/* justify-content: space-between; */
+/* flex-direction: column-reverse; */
+/* justify-content: center; */
 margin-right: 10px;
 margin-top: 10px;
 }
-
+color: hotpink;
 @media (max-width: 800px) {
-  margin-left: 15px;
-  display: inline-flex;
-  justify-content: space-evenly;
+  margin-left: 10px;
   }
-
+  
 `;
 
 const Navigation = styled.ul`
   /* margin-left: 50px; */
   /* display: inline-flex; */
-  display: table
+  /* display: table; */
 `;
 
 const UserWrapper = styled.div`
@@ -79,7 +87,8 @@ const Wrapper = styled.div`
 @media (min-width: 801px) {
 
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  flex-direction: column;
   align-items: center;
   background: var(--color-pink);
   width: 100%;
@@ -91,12 +100,14 @@ const Wrapper = styled.div`
   
   }
 `;
+
 const Title = styled.h1`
-  margin-left: 15px;
   color: var(--color-lightYellow);
 `;
 
-const SignInLink = styled.a``;
+const SignInLink = styled.a`
+color: hotpink;
+`;
 
 const UserInfo = styled.div`
   margin-right: 15px;

@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 import { UserContext } from "../contexts/UserProvider";
 
+import { FiCheckCircle } from 'react-icons/fi'
+
 const LikeButton = () => {
   const {
     singleGame,
@@ -36,16 +38,24 @@ const LikeButton = () => {
 
   return (
     <Wrapper>
-      <button
+      <LikeBtn
         onClick={(ev) => {
           likeGameClick(ev);
         }}
       >
-        Actual Like!!
-      </button>
+        Yes!
+      </LikeBtn>
     </Wrapper>
   );
 };
+
+const LikeBtn = styled(FiCheckCircle)`
+
+color: green;
+cursor: pointer;
+font-size: 50px;
+
+`
 
 const Wrapper = styled.div`
 

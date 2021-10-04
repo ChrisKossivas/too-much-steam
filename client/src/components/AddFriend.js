@@ -4,14 +4,10 @@ import styled from 'styled-components'
 import { UserContext } from "./contexts/UserProvider";
 
 const AddFriend = ({friendId, userId}) => {
+  const { allUsers, allUsersStatus, user, userStatus, fetchAllUsers } = useContext(UserContext);
 
-  
   // make a PUT update for the array of friends in user object
-  const addFriendClick = () => {
-
-    console.log(friendId)
-    console.log(userId)
-
+  const addFriend = () => {
 
     const requestAddFriend = {
       method: "PUT",
@@ -24,13 +20,18 @@ const AddFriend = ({friendId, userId}) => {
     .catch((err) => {
       console.log("error!!", err)
     })
-
+  fetchAllUsers()
   }
 
+  const addFriendClick = (ev) => {
+    ev.stopPropagation();
+
+    addFriend();
+  }
 
   return (
     <Wrapper>
-      <AddFriendBtn onClick={addFriendClick}>
+      <AddFriendBtn onClick={(ev) => addFriendClick(ev)}>
         Add As Friend
       </AddFriendBtn>
     </Wrapper>
@@ -45,7 +46,7 @@ width: 150px;
 
 color: white;
 border-radius: 50px;
-
+margin-bottom: 10px ;
 background: var( --color-pink) ;
 
 `

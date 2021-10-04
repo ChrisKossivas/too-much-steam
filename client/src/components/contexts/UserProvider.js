@@ -66,8 +66,10 @@ export const UserProvider = ({ children }) => {
     // }, [gameStatus, userGames.games, userStatus])
   };
 
+  
   // fetch all users
-  useEffect(() => {
+
+  const fetchAllUsers = () => {
     fetch("/db/user")
       .then((res) => res.json())
       .then((allUsers) => setAllUsers(allUsers.data))
@@ -75,9 +77,11 @@ export const UserProvider = ({ children }) => {
       .catch((err) => {
         console.log("error!!", err);
       });
-  }, []);
 
-  // console.log(user.friendList)
+  }
+
+  // useEffect(() => {
+  // }, []);
 
   // fetch user by id for friends list in profile
   useEffect(() => {
@@ -85,7 +89,7 @@ export const UserProvider = ({ children }) => {
       user.friendList.map((eachFriendId) => {
         fetch("/db/user/" + `${eachFriendId}`)
           .then((res) => res.json())
-          .then((data) => setFriends(data))
+          .then((data) => setFriends(friends => [...friends, data]))
           .then(() => setFriendStatus(true));
       });
     }
@@ -107,6 +111,7 @@ export const UserProvider = ({ children }) => {
         setSingleGameStatus,
         friends,
         friendStatus,
+        fetchAllUsers,
       }}
     >
       {children}

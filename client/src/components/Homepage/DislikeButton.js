@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 import { UserContext } from "../contexts/UserProvider";
 
+import { FiXCircle } from 'react-icons/fi'
+
 const DislikeButton = () => {
 
   const {
@@ -38,19 +40,26 @@ const DislikeButton = () => {
 
   return (
     <Wrapper>
-      <button
+      <DislikeBtn
       onClick={(ev) => {
         dislikeClick(ev);
       }}
       >
-        Actual dislike!!
-      </button>
+      </DislikeBtn>
     </Wrapper>
   )
 
 }
 
 const Wrapper = styled.div`
+
+`
+
+const DislikeBtn = styled(FiXCircle)`
+color: red;
+cursor: pointer;
+font-size: 50px;
+
 
 
 `

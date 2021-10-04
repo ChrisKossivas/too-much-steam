@@ -6,33 +6,23 @@ import AddFriend from "./AddFriend";
 
 const FindFriends = () => {
 
-  const { allUsers, allUsersStatus, user, userStatus } = useContext(UserContext);
+  const { allUsers, allUsersStatus, user, userStatus, fetchAllUsers } = useContext(UserContext);
 
-  let similarLikes = []
 
-  if (allUsersStatus && userStatus) {
-    
-    allUsers.map((eachUser) => {
+  console.log(fetchAllUsers)
 
-      let newArray = user.totalGamesLikedId.filter(function(item) {
-        return eachUser.totalGamesLikedId.includes(item)
-      })
+  useEffect(() => {
 
-      similarLikes.push(newArray.length)
+    fetchAllUsers()
+  }, [])
 
-      // console.log(newArray.length)
-    })
-  }
-
-  console.log(similarLikes[1])
   return (
     <Wrapper>
       {allUsersStatus && userStatus ? (
         allUsers.map((eachUser) => {
-          const alreadyFriends = user.friendList.filter((friends) => 
-            friends.includes(eachUser._id)
-          )
-          // console.log(alreadyFriends[0])
+          const alreadyFriends = user.friendList.filter((friends) => friends.includes(eachUser._id))
+          const commonGames =  user.totalGamesLikedId.filter((games) => eachUser.totalGamesLikedId.includes(games))
+
           if (user._id !== eachUser._id && alreadyFriends[0] !== eachUser._id) {
             const {personaname, _id, avatarmedium, totalGamesLikedId} = eachUser
             return (
@@ -42,16 +32,9 @@ const FindFriends = () => {
                 {personaname}
               </p>
               <img src={avatarmedium} alt={"profileImg"} />
+
               <p>
-                {"Liked Games in Common: " + similarLikes[1]}
-                {/* { user.totalGamesLikedId.filter(function(item) {
-                  let result = totalGamesLikedId.includes(item)
-                  if (result) {
-                    return (
-                      similarLikes[1]
-                      )
-                  }
-                })} */}
+                {"Liked Games in Common: " + commonGames.length}
                 </p>
               <div>
                 
@@ -74,6 +57,7 @@ margin-top: 10px;
 display: flex;
 justify-content: center;
 align-items: center;
+flex-direction: column;
 text-align: center;
 `
 

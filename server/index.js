@@ -5,7 +5,7 @@
 
 
 const express = require("express")
-
+const request = require('request-promise');
 const morgan = require("morgan");
 const cors = require("cors");
 
@@ -18,6 +18,7 @@ const session = require('express-session')
 const { MongoClient } = require("mongodb");
 require("dotenv").config();
 const { MONGO_URI } = process.env;
+
 
 const options = {
   useNewUrlParser: true,
@@ -44,6 +45,7 @@ passport.deserializeUser(function(obj, done) {
 });
 
 
+
   // CHANGE APIKEY TO USE .ENV FILE
     passport.use(new SteamStrategy({
       returnURL: 'http://localhost:8000/api/auth/steam/return',
@@ -57,6 +59,10 @@ passport.deserializeUser(function(obj, done) {
         await client.connect();
 
         const db = client.db()
+
+
+
+
 
         const _id =  profile._json.steamid
 
@@ -72,9 +78,21 @@ passport.deserializeUser(function(obj, done) {
           friendList: []
         }
 
+        const gamesArr = [
+
+        ]
+
+        // promises workshop
+        // add new field of total games in library in existing new user obj
+        // it would need to await fetch of account and await of steam games to add it all to db
+        // fetch game array in backend
+        // insertmany() for db of games with added total likes on it
+        // at the end I would do my frontend fetch calls with mongodb not steam
+
         db.collection("users").findOne({_id}, async (err, result) => {
           if (!result) {
             newUserResult = await db.collection("users").insertOne(newUserObj)
+
             return
           }
           else {

@@ -12,7 +12,7 @@ export const UserProvider = ({ children }) => {
   const [singleGameStatus, setSingleGameStatus] = useState(false);
 
   const [allUsers, setAllUsers] = useState([]);
-  const [allUsersStatus, setAllUsersStatus] = useState(false);
+  const [allUsersStatus, setAllUsersStatus] = useState();
 
   const [friends, setFriends] = useState([]);
   const [friendStatus, setFriendStatus] = useState(false);
@@ -27,6 +27,9 @@ export const UserProvider = ({ children }) => {
         console.log("error!!", err);
       });
   }, []);
+
+
+
   // fetch all game ids in steam library based on account id
   useEffect(() => {
     if (userStatus) {
@@ -44,11 +47,12 @@ export const UserProvider = ({ children }) => {
     }
   }, [userStatus, user._id]);
 
+
+
+  
+
   // fetch specific game data
   const fetchGame = () => {
-    // useEffect(() => {
-    // if (gameStatus && userStatus) {
-
     const randomAppId =
       userGames.games[Math.floor(Math.random() * (userGames.games.length - 0))]
         .appid;
@@ -62,8 +66,6 @@ export const UserProvider = ({ children }) => {
       .catch((err) => {
         console.log("error!!", err);
       });
-    // }
-    // }, [gameStatus, userGames.games, userStatus])
   };
 
   
@@ -112,6 +114,8 @@ export const UserProvider = ({ children }) => {
         friends,
         friendStatus,
         fetchAllUsers,
+        setAllUsersStatus,
+        setAllUsers,
       }}
     >
       {children}

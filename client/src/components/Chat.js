@@ -87,7 +87,6 @@ const Chat = () => {
 };
 
 const SubmitMsg = styled.button`
-
 font-size: 15px;
 width: 85px;
 height: 40px;
@@ -95,12 +94,7 @@ height: 40px;
 `
 
 const InputInfo = styled.div`
-
-/* clear: both;
-    position: static;
-    height: 200px; */
-    /* margin-top: -200px; */
-    position: absolute;
+  position: absolute;
   bottom: 0;
   left: 20px;
   width: 95%;
@@ -110,34 +104,19 @@ const InputInfo = styled.div`
 const Wrapper = styled.form`
 text-align: center;
 padding: 0.25rem; 
-/* position: relative;  */
 bottom: 0; 
 left: 750px; 
 right: 0; 
-/* display: flex; */
-/* justify-content: center; */
-/* align-items: center; */
-/* height: 4rem;  */
-/* box-sizing: border-box;  */
-/* backdrop-filter:blur(10px); */
+
 
 `
 
 const ChatBox = styled.input`
-/* border: none; 
-padding: 0 1rem; 
-flex-grow: 1; 
-border-radius: 2rem;
-margin: 0.25rem; */
 width: 250px;
 height: 35px;
 
 `
 const MessageContainer = styled.ul`
-/* list-style-type: none;  */
-/* display: block;
-margin: 0; 
-padding: 0; */
 `
 
 const Message = styled.li`

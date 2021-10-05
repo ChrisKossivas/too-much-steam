@@ -8,12 +8,8 @@ import Header from './components/Header';
 import Profile from './components/Profile';
 import FindFriends from './components/FindFriends';
 import Chat from './components/Chat'
-// import io from 'socket.io-client'
 
 function App() {
-  // maybe add a counter to the path for route for chat
-  // maybe try doing req.params
-  // slither.io didn't need req.params so maybe try to do more research on it
   return (
     <BrowserRouter>
       <GlobalStyles />

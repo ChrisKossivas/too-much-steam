@@ -16,17 +16,12 @@ const FindFriends = () => {
   }, [])
 
 
-  console.log(allUsers)
-
   return (
     <Wrapper>
       {allUsersStatus && userStatus ? (
         allUsers.map((eachUser) => {
           const alreadyFriends = user.friendList.filter((friends) => friends.includes(eachUser._id))
           const commonGames =  user.totalGamesLikedId.filter((games) => eachUser.totalGamesLikedId.includes(games))
-
-          // console.log("alreadyfriends",alreadyFriends)
-          // console.log("without const", user.friendList.filter((friends) => friends.includes(eachUser._id)))
 
           if (user._id !== eachUser._id && alreadyFriends[0] !== eachUser._id) {
             const {personaname, _id, avatarmedium, totalGamesLikedId} = eachUser

@@ -8,6 +8,7 @@ import Header from './components/Header';
 import Profile from './components/Profile';
 import FindFriends from './components/FindFriends';
 import Chat from './components/Chat'
+import TopGames from './components/top10/TopGames';
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
             <Profile />
           </Route>
           <Route exact path="/top10">
-            top 10 of most liked games within the app.
+            <TopGames />
           </Route>
           <Route exact path="/findfriends">
             <FindFriends />

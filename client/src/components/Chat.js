@@ -94,19 +94,12 @@ height: 40px;
 `
 
 const InputInfo = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 20px;
-  width: 95%;
-  height: 100px;
+
 `
 
 const Wrapper = styled.form`
-text-align: center;
-padding: 0.25rem; 
-bottom: 0; 
-left: 750px; 
-right: 0; 
+position: fixed;
+bottom: 0;
 
 
 `
@@ -117,6 +110,11 @@ height: 35px;
 
 `
 const MessageContainer = styled.ul`
+
+border: 1px solid #999;
+  display: block;
+  position: relative;
+
 `
 
 const Message = styled.li`

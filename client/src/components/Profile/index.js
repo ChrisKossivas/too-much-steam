@@ -10,9 +10,7 @@ import { UserContext } from "../contexts/UserProvider";
 const Profile = () => {
 
   const {user, userStatus, userGames, gameStatus} = useContext(UserContext)
-
-  console.log('FROM DB', user)
-  console.log("ALL GAMES IN USER LIBRARY", userGames)
+  
   return (
     <Wrapper>
         {userStatus && gameStatus ? (

@@ -31,20 +31,13 @@ const AddFriend = ({friendId, userId}) => {
 
   }
 
-  console.log("outta", allUsers)
-
   const addFriendClick = (ev) => {
     ev.stopPropagation();
 
     addFriend();
     // fetchAllUsers();
     window.location.reload(false);
-    
-    console.log("inside func", allUsers)
   }
-
-  
-  console.log("outside func", allUsers)
 
   return (
     <Wrapper>

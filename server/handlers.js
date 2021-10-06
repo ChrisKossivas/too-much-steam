@@ -5,6 +5,48 @@ const getTest = (req, res) => {
 
 }
 
+const getGamesDb = async (req, res) => {
+  try {
+
+    const appid = 80
+
+    const db = req.app.locals.client.db();
+    const games  = await db.collection("games").find().toArray()
+
+    // const specificGame = await db.collection("games").findOne({appid})
+
+    // console.log(specificGame)
+
+    res.status(200).json({ status: 200, data: games, message: "all games collection!"})
+  }
+  catch (err) {
+    res.status(500).json({
+      status: 500,
+      message: "get games error",
+  });
+}
+}
+
+const getTop10GamesDb = async (req, res) => {
+  try {
+    const db = req.app.locals.client.db();
+    
+    const topGames  = await db.collection("games").find({}).sort({
+      totalLikes : -1,
+    }).limit(10).toArray()
+
+    console.log(topGames)
+    res.status(200).json({ status: 200, data: topGames, message: "all games collection!"})
+  }
+  catch (err) {
+    res.status(500).json({
+      status: 500,
+      message: "get games error",
+  });
+}
+}
+
+
 const getUsersDb = async (req, res) => {
   try {
     const db = req.app.locals.client.db();
@@ -57,12 +99,16 @@ const updateAddLike = async (req, res) => {
 
     const query = { _id };
     const newValues = { $inc: { totalGamesLiked: 1 }, $push: {totalGamesLikedId: appid} };
-  
+    
+    const queryAllLikes = {appid: parseInt(appid) }
+    const newValAllGames = { $inc: { totalLikes: 1 }}
+
     const db = req.app.locals.client.db();
+    console.log("APPIDIDIDIDHH", appid)
     await db.collection("users").findOne({_id}, async (err, result) => {
-      console.log(result)
       if (result) {
         await db.collection("users").updateOne(query, newValues);
+        await db.collection("games").updateOne(queryAllLikes, newValAllGames);
         res.status(200).json({status: 200, data: result, message: "Added Total Game Likes + 1!"});
         return
       }
@@ -145,4 +191,6 @@ module.exports = {
   updateAddLike,
   updateAddDislike,
   updateAddFriend,
+  getGamesDb,
+  getTop10GamesDb,
 }

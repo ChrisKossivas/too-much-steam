@@ -10,7 +10,6 @@ const GameList = () => {
   const [displayGamesLiked, setdisplayGamesLiked] = useState([])
   const [gameDisplayStatus, setgameDisplayStatus] = useState(false)
 
-  console.log(user.totalGamesLikedId)
   useEffect(() => {
 
     user.totalGamesLikedId.map((games) => {

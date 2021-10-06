@@ -11,8 +11,6 @@ const GameDisplay = () => {
     singleGameStatus,
     gameStatus,
     userGames,
-    user,
-    fetchGame,
     userStatus,
     setSingleGame,
     setSingleGameStatus,
@@ -44,8 +42,6 @@ const GameDisplay = () => {
     setSingleGame,
     setSingleGameStatus,
   ]);
-
-  // console.log(singleGame)
 
   return (
     <Wrapper>
@@ -105,15 +101,12 @@ const GameName = styled.p`
 `;
 
 const GameImg = styled.img`
-  /* width: 250px; */
   display: block;
   margin-left: auto;
   margin-right: auto;
   width: 85%;
-  /* width: 80%; */
   object-fit: contain;
   height: 250px;
-  /* border: 2px solid red */
 `;
 
 const Wrapper = styled.div`

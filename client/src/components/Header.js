@@ -9,7 +9,6 @@ import HeaderImg from '../assets/Header1.png'
 const Header = () => {
   const { user, userStatus } = useContext(UserContext);
 
-  console.log(HeaderImg)
   return (
     <Wrapper
     style={{
@@ -53,10 +52,6 @@ const Li = styled.li`
 
 const EachLink = styled(Link)`
 @media (min-width: 801px) {
-/* display: inline-flex; */
-/* justify-content: space-between; */
-/* flex-direction: column-reverse; */
-/* justify-content: center; */
 margin-right: 10px;
 margin-top: 10px;
 }
@@ -68,9 +63,6 @@ color: hotpink;
 `;
 
 const Navigation = styled.ul`
-  /* margin-left: 50px; */
-  /* display: inline-flex; */
-  /* display: table; */
 `;
 
 const UserWrapper = styled.div`

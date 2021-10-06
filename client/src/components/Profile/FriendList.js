@@ -14,10 +14,7 @@ const FriendList = () => {
     history.push("/chat")
   }
 
-  console.log(friends)
-
   if (friendStatus) {
-    // const {personaname, avatarmedium} = friends.data
     
     return (
       <Wrapper>
@@ -27,7 +24,6 @@ const FriendList = () => {
           <FriendInfo>
             {friends.map((friend) => {
               const {personaname, avatarmedium, _id} = friend.data
-              // console.log(avatarmedium)
 
               return (
               <span key={_id}>
@@ -43,13 +39,6 @@ const FriendList = () => {
               </span>
               )
             })}
-        {/* <FriendImg src={avatarmedium} alt={"friendImg"}/>
-      <p>
-        {personaname}
-      </p> */}
-      {/* <ChatBtn onClick={clickToChat}>
-        Chat!
-      </ChatBtn> */}
       </FriendInfo>
   
       </Wrapper>
@@ -58,14 +47,20 @@ const FriendList = () => {
   else {
     return (
       <div>
-        <p>
-          No Friends
-        </p>
+        <NoFriendsMsg>
+          {"No Friends :("} 
+        </NoFriendsMsg>
       </div>
     )
   }
 
 }
+
+const NoFriendsMsg = styled.p`
+
+text-align: center;
+
+`
 
 const ChatBtn = styled.button`
 

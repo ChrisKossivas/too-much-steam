@@ -33,7 +33,46 @@ const {
   updateAddLike,
   updateAddDislike,
   updateAddFriend,
+  getGamesDb,
+  getTop10GamesDb,
 } = require("./handlers")
+
+const eachGameLibrary = []
+const libraryInUser = []
+
+const getLibrary = async (steamId) => {
+  try {
+
+    const client = await new MongoClient(MONGO_URI, options);
+      await client.connect();
+
+      const db = client.db()
+
+
+    return request(" http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=93B0F23949E72BE7ACA2A771320DB80F&steamid=" +
+    `${steamId}` +
+    "&format=json"
+  )
+  .then((res) => JSON.parse(res))
+  .then(async (library) => {
+  
+  library.response.games.map((allGames) => {
+    eachGameLibrary.push(allGames)
+  })
+    const result = eachGameLibrary.map(eachGame => ({...eachGame, totalLikes: 0}))
+    if (result !== undefined) {
+      
+    }
+    // await db.collection("games").insertMany(result);
+    // await db.collection("games").deleteMany({});
+  })
+
+  }
+  catch (err) {
+    console.log("error!", err)
+  }
+  
+}
 
 
 passport.serializeUser(function(user, done) {
@@ -61,57 +100,62 @@ passport.deserializeUser(function(obj, done) {
         const db = client.db()
 
 
-
-
-
+        
+        
         const _id =  profile._json.steamid
-
-        const newUserObj = {
-          _id: profile._json.steamid, 
-          personaname: profile._json.personaname, 
-          avatarmedium: profile._json.avatarmedium, 
-          realname: profile._json.realname,
-          totalGamesLiked: 0,
-          totalGamesDisliked: 0,
-          totalGamesLikedId: [],
-          totalGamesDislikedId: [],
-          friendList: []
-        }
-
-        const gamesArr = [
-
-        ]
-
+        return request(" http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=93B0F23949E72BE7ACA2A771320DB80F&steamid=" +
+        `${_id}` +
+        "&format=json"
+      )
+      .then((res) => JSON.parse(res))
+      .then(async (library) => {
+      
+      library.response.games.map((allGames) => {
+        libraryInUser.push(allGames)
+      })
+      const newUserObj = {
+        _id: profile._json.steamid, 
+        personaname: profile._json.personaname, 
+        avatarmedium: profile._json.avatarmedium, 
+        realname: profile._json.realname,
+        totalGamesLiked: 0,
+        totalGamesDisliked: 0,
+        totalGamesLikedId: [],
+        totalGamesDislikedId: [],
+        friendList: [],
+        library: libraryInUser
+      }
+      
         // promises workshop
         // add new field of total games in library in existing new user obj
         // it would need to await fetch of account and await of steam games to add it all to db
         // fetch game array in backend
         // insertmany() for db of games with added total likes on it
         // at the end I would do my frontend fetch calls with mongodb not steam
-
         db.collection("users").findOne({_id}, async (err, result) => {
+          getLibrary(_id)
           if (!result) {
             newUserResult = await db.collection("users").insertOne(newUserObj)
-
+            
             return
           }
           else {
             return
           }
         })
-
-
+        
+        
         profile.identifier = identifier;
         
         
         
         return done(null, profile);
       });
+    })
     }
     ));
     
     
-
 
 // server express
 const app = express()
@@ -251,19 +295,25 @@ app.get("/test", getTest)
 
 // DB ENDPOINTS
 
-// GET all users
+// GET all users DB
 app.get("/db/user", getUsersDb)
 
-// GET user by id
+// GET user by id DB
 app.get("/db/user/:_id", getUserDbById)
 
-// PUT update user object with 1++ to total games liked and add the appId to array of games liked
+// GET all games DB
+app.get("/db/game", getGamesDb)
+
+// GET Top 10 games DB
+app.get("/db/game/top10", getTop10GamesDb)
+
+// PUT update user object with 1++ to total games liked and add the appId to array of games liked DB
 app.put("/db/user/like/:_id/:appid", updateAddLike)
 
-// PUT update user object with 1++ to total games disliked and add the appId to array of games disliked
+// PUT update user object with 1++ to total games disliked and add the appId to array of games disliked DB
 app.put("/db/user/dislike/:_id/:appid", updateAddDislike)
 
-// PUT update user object with new friend Id.
+// PUT update user object with new friend Id. DB
 // Needs friend Id and logged in User Id
 app.put("/db/user/addfriend/:_id/:friendid", updateAddFriend)
 

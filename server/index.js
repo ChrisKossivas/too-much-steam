@@ -1,9 +1,6 @@
 "use strict";
 
-
-// also get api key and stuff later on hard code it
-
-
+// requirements to run server
 const express = require("express")
 const request = require('request-promise');
 const morgan = require("morgan");
@@ -35,10 +32,11 @@ const {
   updateAddFriend,
   getGamesDb,
   getTop10GamesDb,
+  GetPersonalGames,
+  getSpecificGame,
 } = require("./handlers")
 
 const eachGameLibrary = []
-const libraryInUser = []
 
 const getLibrary = async (steamId) => {
   try {
@@ -60,11 +58,9 @@ const getLibrary = async (steamId) => {
     eachGameLibrary.push(allGames)
   })
     const result = eachGameLibrary.map(eachGame => ({...eachGame, totalLikes: 0}))
-    if (result !== undefined) {
-      
-    }
-    // await db.collection("games").insertMany(result);
-    // await db.collection("games").deleteMany({});
+
+    await db.collection("games").insertMany(result);
+
   })
 
   }
@@ -93,75 +89,52 @@ passport.deserializeUser(function(obj, done) {
     },
     function(identifier, profile, done) {
       process.nextTick( async function () {
+        try {
 
-        const client = await new MongoClient(MONGO_URI, options);
-        await client.connect();
+          const client = await new MongoClient(MONGO_URI, options);
+          await client.connect();
+          
+          const db = client.db()
+          
+          const _id =  profile._json.steamid
 
-        const db = client.db()
+              const newUserObj = {
+                _id: profile._json.steamid, 
+                personaname: profile._json.personaname, 
+                avatarmedium: profile._json.avatarmedium, 
+                realname: profile._json.realname,
+                totalGamesLiked: 0,
+                totalGamesDisliked: 0,
+                totalGamesLikedId: [],
+                totalGamesDislikedId: [],
+                friendList: [],
+              }
 
-
-        
-        
-        const _id =  profile._json.steamid
-        return request(" http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=93B0F23949E72BE7ACA2A771320DB80F&steamid=" +
-        `${_id}` +
-        "&format=json"
-      )
-      .then((res) => JSON.parse(res))
-      .then(async (library) => {
-      
-      library.response.games.map((allGames) => {
-        libraryInUser.push(allGames)
-      })
-      const newUserObj = {
-        _id: profile._json.steamid, 
-        personaname: profile._json.personaname, 
-        avatarmedium: profile._json.avatarmedium, 
-        realname: profile._json.realname,
-        totalGamesLiked: 0,
-        totalGamesDisliked: 0,
-        totalGamesLikedId: [],
-        totalGamesDislikedId: [],
-        friendList: [],
-        library: libraryInUser
-      }
-      
-        // promises workshop
-        // add new field of total games in library in existing new user obj
-        // it would need to await fetch of account and await of steam games to add it all to db
-        // fetch game array in backend
-        // insertmany() for db of games with added total likes on it
-        // at the end I would do my frontend fetch calls with mongodb not steam
-        db.collection("users").findOne({_id}, async (err, result) => {
-          getLibrary(_id)
-          if (!result) {
-            newUserResult = await db.collection("users").insertOne(newUserObj)
-            
-            return
+              db.collection("users").findOne({_id}, async (err, result) => {
+                if (!result) {
+                  getLibrary(_id)
+                  await db.collection("users").insertOne(newUserObj)
+                  
+                  return
+                }
+                else {
+                  return
+                }
+              })
+              profile.identifier = identifier;
+              return done(null, profile);
+            }
+            catch(err) {
+              console.log(err)
+            }
+            });
           }
-          else {
-            return
-          }
-        })
-        
-        
-        profile.identifier = identifier;
-        
-        
-        
-        return done(null, profile);
-      });
-    })
-    }
-    ));
+          ));
     
     
 
 // server express
 const app = express()
-
-// app.set('views', __dirname + '/views');
-// app.set('view engine', 'ejs');
 
 app.use(session({
   secret: '123',
@@ -187,10 +160,7 @@ app.use(morgan("tiny"))
 
 
   // Routes for steam
-  app.post('/api/account', (req, res) => {
-    // res.status(200).json(req.user);
-    });
-
+  
 app.get('/api/account', async (req, res) => {
 
   try {
@@ -231,17 +201,14 @@ const users = {};
 io.on('connection', socket => {
   console.log("CONNECTED!")
   socket.on("username", username => {
-    // console.log("myUserName!", username)
     const user = {
-      // name: username,
       id: socket.id
     };
     users[socket.id] = user;
     io.emit("connected", user)
     io.emit("users", Object.values(users))
   })
-  // console.log(users)
-  
+
   socket.on('send', (msg) => {
     io.emit('new-message', {
       text:  msg.username + " " + msg.value,
@@ -249,17 +216,6 @@ io.on('connection', socket => {
       user: users[socket.id]
     });
   });
-
-
-  // joining rooms for private messaging
-  // socket.on("private-message", (anotherSocketId, msg) => {
-  //   console.log(anotherSocketId)
-  //   console.log(msg)
-  //   socket.to("someroom1").emit("private-message", socket.id);
-  // })
-
-
-
 
   socket.on('disconnect', () => {
     console.log('user disconnected');
@@ -294,6 +250,12 @@ app.get("/test", getTest)
 
 
 // DB ENDPOINTS
+
+// GET specific game from library 
+app.get("/api/game/specific/:appid", getSpecificGame) 
+
+// GET all games library
+app.get("/api/game/:_id", GetPersonalGames)
 
 // GET all users DB
 app.get("/db/user", getUsersDb)
@@ -335,7 +297,6 @@ const setup = async () => {
 setup()
     .then(() => {
         http.listen(8000, () => console.log(`Listening on port ${8000}`));
-        // http.listen(8001,  () => console.log(`Listening on port ${8001} for chat`))
     })
     .catch((err) => {
         console.log("ERROR! Server!", err);

@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import styled from 'styled-components'
 
 import { UserContext } from "./contexts/UserProvider";
 import AddFriend from "./AddFriend";
+import Loading from "./Loading";
 
 const FindFriends = () => {
 
-  const { allUsers, allUsersStatus, user, userStatus, fetchAllUsers, setAllUsers, setAllUsersStatus,  } = useContext(UserContext);
-
-  const [alreadyWeFriend, setAlreadyWeFriend] = useState()
+  const { allUsers, allUsersStatus, user, userStatus, fetchAllUsers} = useContext(UserContext);
 
   useEffect(() => {
 
@@ -24,7 +23,7 @@ const FindFriends = () => {
           const commonGames =  user.totalGamesLikedId.filter((games) => eachUser.totalGamesLikedId.includes(games))
 
           if (user._id !== eachUser._id && alreadyFriends[0] !== eachUser._id) {
-            const {personaname, _id, avatarmedium, totalGamesLikedId} = eachUser
+            const {personaname, _id, avatarmedium} = eachUser
             return (
               <div key={_id}>
   
@@ -46,7 +45,15 @@ const FindFriends = () => {
             )
           }
         })
-      ): null}
+      ): 
+      (
+      <div>
+        <h2>
+        <Loading />
+        </h2>
+      </div>
+        )
+        }
     </Wrapper>
   )
 

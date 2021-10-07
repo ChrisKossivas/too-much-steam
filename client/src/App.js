@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import styled from "styled-components";
 
@@ -28,9 +28,6 @@ function App() {
           </Route>
           <Route exact path="/findfriends">
             <FindFriends />
-          </Route>
-          <Route exact path="/messagefriend">
-            Strech goal!
           </Route>
           <Route exact path="/chat">
             <Chat />

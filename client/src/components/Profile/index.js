@@ -1,15 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 
 import FriendList from "./FriendList";
 import ProfileInfo from "./ProfileInfo";
 import GameList from "./GameList";
+import Loading from "../Loading";
 
 import { UserContext } from "../contexts/UserProvider";
 
 const Profile = () => {
 
-  const {user, userStatus, userGames, gameStatus} = useContext(UserContext)
+  const {userStatus, gameStatus} = useContext(UserContext)
   
   return (
     <Wrapper>
@@ -22,7 +23,7 @@ const Profile = () => {
         ): (
           <div>
             <h2>
-            Loading Profile...
+              <Loading />
             </h2>
           </div>
         )}

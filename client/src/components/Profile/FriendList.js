@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react' 
+import React, { useContext } from 'react' 
 import styled from 'styled-components'
 import { useHistory } from "react-router";
 import { UserContext } from "../contexts/UserProvider";
@@ -6,7 +6,7 @@ import { UserContext } from "../contexts/UserProvider";
 const FriendList = () => {
 
 
-  const { allUsers, allUsersStatus, user, userStatus, friends, friendStatus } = useContext(UserContext);
+  const { friends, friendStatus } = useContext(UserContext);
 
   let history = useHistory()
 

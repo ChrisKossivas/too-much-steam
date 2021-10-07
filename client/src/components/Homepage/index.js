@@ -1,16 +1,13 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 
 import { UserContext } from "../contexts/UserProvider";
 
 import GameDisplay from "./GameDisplay";
 
-
 const HomePage = () => {
-  const { user, userStatus, singleGame } = useContext(UserContext);
+  const { userStatus, singleGame } = useContext(UserContext);
 
-
-  // import circular loading later (material ui)
 
   return (
     <Wrapper>
@@ -20,23 +17,27 @@ const HomePage = () => {
           <GameDisplay />
             </div>
         ) : (
-          <div>
-            <LogInReminder>
-            Please log In To Steam
-              </LogInReminder>
-          </div>
+          <>
+          </>
           )}
-          {userStatus && singleGame === undefined ? (
+          {!userStatus && singleGame === undefined ? (
             <div>
-              <h2>
-              LOADING...
-              </h2>
+              <LogInReminder>
+            <SignInLink href="http://localhost:8000/api/auth/steam">
+            Please Sign Into Steam Here
+          </SignInLink>
+              </LogInReminder>
               </div>
           ) : null}
       </Content>
     </Wrapper>
   );
 };
+
+const SignInLink = styled.a`
+color:  var(--color-orange);
+display: block;
+`;
 
 const LogInReminder = styled.h1`
 

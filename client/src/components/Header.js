@@ -7,7 +7,7 @@ import { UserContext } from "./contexts/UserProvider";
 import HeaderImg from '../assets/Header1.png'
 
 const Header = () => {
-  const { user, userStatus } = useContext(UserContext);
+  const { user, userStatus} = useContext(UserContext);
 
   return (
     <Wrapper
@@ -15,7 +15,7 @@ const Header = () => {
       backgroundImage: `url(${HeaderImg})`,
     }}
     >
-      <Title>TooMuchSteam!</Title>
+      <Title>Too Much Steam!</Title>
       <div>
         {userStatus ? (
           <UserWrapper>
@@ -35,9 +35,9 @@ const Header = () => {
           </SignInLink>
           </UserWrapper>
         ) : (
-          <SignInLink href="http://localhost:8000/api/auth/steam">
-            Sign in to Steam
-          </SignInLink>
+        <>
+          <EachLink to="/">Home</EachLink>
+        </>
         )}
       </div>
     </Wrapper>
@@ -76,6 +76,7 @@ display: inline-flex;
 `;
 
 const Wrapper = styled.div`
+height: 117px;
 @media (min-width: 801px) {
 
   display: flex;

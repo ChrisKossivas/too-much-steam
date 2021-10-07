@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react' 
+import React, {useContext, useState} from 'react' 
 import styled from 'styled-components'
 import { UserContext } from "../contexts/UserProvider";
 
@@ -10,23 +10,11 @@ const GameList = () => {
   const [displayGamesLiked, setdisplayGamesLiked] = useState([])
   const [gameDisplayStatus, setgameDisplayStatus] = useState(false)
 
-  useEffect(() => {
 
-    user.totalGamesLikedId.map((games) => {
-      
-      // keeps fetching the data if I set state to it 
 
-      // fetch("https://store.steampowered.com/api/appdetails?appids=" + `${games}`)
-      // .then((res) => res.json())
-      // .then((res) => {console.log(res[games].data)})
-  
-    })
-  
-  }, [displayGamesLiked,  user.totalGamesLikedId])
-  
+
   return (
     <Wrapper>
-      return list of liked games here
     </Wrapper>
   )
 

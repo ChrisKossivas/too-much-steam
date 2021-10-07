@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import styled from "styled-components";
 
 import { UserContext } from "../contexts/UserProvider";
 import LikeButton from "./LikeButton";
 import DislikeButton from "./DislikeButton";
+import Loading from "../Loading";
 
 const GameDisplay = () => {
   const {
@@ -25,11 +26,10 @@ const GameDisplay = () => {
         ].appid;
 
       fetch(
-        "https://store.steampowered.com/api/appdetails?appids=" +
-          `${randomAppId}`
+        "/api/game/specific/" + `${randomAppId}`
       )
         .then((res) => res.json())
-        .then((res) => setSingleGame(res[randomAppId]))
+        .then((res) => setSingleGame(res.game))
         .then(() => setSingleGameStatus(true))
         .catch((err) => {
           console.log("error!!", err);
@@ -69,13 +69,45 @@ const GameDisplay = () => {
             }
           })}
         </GameContent>
-      ) : null}
+      ) : (
+        <div>
+          <h2>
+            <Loading />
+          </h2>
+        </div>
+      )}
       {singleGameStatus && singleGame.success === false ? (
-        <h2>No Game Data to view</h2>
+        <div>
+        <NoGameData>
+          No Game Data to view
+          <RefreshBtn onClick = {() => {
+            window.location.reload(false);
+          }}>Refresh</RefreshBtn>
+          </NoGameData>
+        </div>
       ) : null}
     </Wrapper>
   );
 };
+
+const RefreshBtn = styled.button`
+
+height: 35px;
+width: 90px;
+font-size: 15px;
+color: white;
+background: hotpink;
+border-radius: 50px;
+
+`
+
+const NoGameData = styled.h2`
+/* display: block; */
+top: 30%;
+left: 1%;
+position: absolute;
+
+`
 
 const Btns = styled.div`
 

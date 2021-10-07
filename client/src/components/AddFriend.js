@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import styled from 'styled-components'
 
 import { UserContext } from "./contexts/UserProvider";
 
 const AddFriend = ({friendId, userId}) => {
-  const { allUsers, allUsersStatus, user, userStatus, fetchAllUsers,setAllUsers, setAllUsersStatus } = useContext(UserContext);
+  const {setAllUsers, setAllUsersStatus } = useContext(UserContext);
 
   // make a PUT update for the array of friends in user object
   const addFriend = () => {
@@ -20,7 +20,6 @@ const AddFriend = ({friendId, userId}) => {
     .catch((err) => {
       console.log("error!!", err)
     })
-    // fetchAllUsers();
     fetch("/db/user")
     .then((res) => res.json())
     .then((res) => setAllUsers(res.data))
@@ -35,7 +34,6 @@ const AddFriend = ({friendId, userId}) => {
     ev.stopPropagation();
 
     addFriend();
-    // fetchAllUsers();
     window.location.reload(false);
   }
 

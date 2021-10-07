@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect} from "react";
 import styled from 'styled-components'
+
+import Loading from "../Loading";
 
 const TopGames = () => {
 
@@ -7,8 +9,6 @@ const TopGames = () => {
   const [top10Status, setTop10Status] = useState(false)
 
   // fetches top 10 games
-
-  
   const getTop10 = async () => {
     try {
       
@@ -16,14 +16,15 @@ const TopGames = () => {
       .then((res) => res.json())
       .then((topGames) => { 
         topGames.data.map(async (eachTop) => {
-          // console.log(eachTop.totalLikes)
-          const {appid, } = eachTop
+
+          
+          const {appid} = eachTop
           await fetch(
-            "https://store.steampowered.com/api/appdetails?appids=" + `${appid}`
-            )
+            "/api/game/specific/" + `${appid}`
+          )
             .then((res) => res.json())
             .then((GameData) => {
-              setTop10(top10 => [...top10, {games: GameData[appid].data, totalLikes: eachTop.totalLikes}])
+              setTop10(top10 => [...top10, {games: GameData.game, totalLikes: eachTop.totalLikes}])
               return
             })
             .then(() => setTop10Status(true))
@@ -46,7 +47,7 @@ const TopGames = () => {
   <Wrapper>
       <div>
       {top10Status ? (top10.map((topGames) => {
-        const {name, header_image, steam_appid} = topGames.games
+        const {name, header_image, steam_appid} = topGames.games.data
         return (
           <div key={steam_appid}>
           <GameName>
@@ -58,7 +59,13 @@ const TopGames = () => {
           <GameImg src={header_image} alt={"Top 10 Games"}/>
           </div>
         )
-      })) : null}
+      })) : 
+      <div>
+        <h2>
+        <Loading />
+        </h2>
+        </div>
+        }
       </div>
     </Wrapper>
   )

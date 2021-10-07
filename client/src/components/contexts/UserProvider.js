@@ -19,27 +19,24 @@ export const UserProvider = ({ children }) => {
 
   // fetch user account data
   useEffect(() => {
-    fetch("/api/account")
-      .then((res) => res.json())
-      .then((res) => setUser(res))
-      .then(() => setUserStatus(true))
-      .catch((err) => {
-        console.log("error!!", err);
-      });
-  }, []);
+    if (!userStatus) {
+      fetch("/api/account")
+        .then((res) => res.json())
+        .then((res) => {
+          setUser(res);
+        })
+        .then(() => setUserStatus(true))
+        .catch((err) => {
+          console.log("error!!", err);
+        });
+    }
+  }, [userStatus]);
 
-
-
-  // fetch all game ids in steam library based on account id
   useEffect(() => {
     if (userStatus) {
-      fetch(
-        " http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=93B0F23949E72BE7ACA2A771320DB80F&steamid=" +
-          `${user._id}` +
-          "&format=json"
-      )
+      fetch(" /api/game/" + `${user._id}`)
         .then((res) => res.json())
-        .then((res) => setUserGames(res.response))
+        .then((res) => setUserGames(res.data))
         .then(() => setGameStatus(true))
         .catch((err) => {
           console.log("error!!", err);
@@ -47,28 +44,20 @@ export const UserProvider = ({ children }) => {
     }
   }, [userStatus, user._id]);
 
-
-
-  
-
-  // fetch specific game data
   const fetchGame = () => {
     const randomAppId =
       userGames.games[Math.floor(Math.random() * (userGames.games.length - 0))]
         .appid;
 
-    fetch(
-      "https://store.steampowered.com/api/appdetails?appids=" + `${randomAppId}`
-    )
+    fetch("/api/game/specific/" + `${randomAppId}`)
       .then((res) => res.json())
-      .then((res) => setSingleGame(res[randomAppId]))
+      .then((res) => setSingleGame(res.game))
       .then(() => setSingleGameStatus(true))
       .catch((err) => {
         console.log("error!!", err);
       });
   };
 
-  
   // fetch all users
 
   const fetchAllUsers = () => {
@@ -79,11 +68,7 @@ export const UserProvider = ({ children }) => {
       .catch((err) => {
         console.log("error!!", err);
       });
-
-  }
-
-  // useEffect(() => {
-  // }, []);
+  };
 
   // fetch user by id for friends list in profile
   useEffect(() => {
@@ -91,7 +76,7 @@ export const UserProvider = ({ children }) => {
       user.friendList.map((eachFriendId) => {
         fetch("/db/user/" + `${eachFriendId}`)
           .then((res) => res.json())
-          .then((data) => setFriends(friends => [...friends, data]))
+          .then((data) => setFriends((friends) => [...friends, data]))
           .then(() => setFriendStatus(true));
       });
     }
@@ -116,6 +101,7 @@ export const UserProvider = ({ children }) => {
         fetchAllUsers,
         setAllUsersStatus,
         setAllUsers,
+        setUser,
       }}
     >
       {children}

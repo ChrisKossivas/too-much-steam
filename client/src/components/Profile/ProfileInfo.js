@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 
 import { UserContext } from "../contexts/UserProvider";
@@ -7,6 +7,7 @@ import { UserContext } from "../contexts/UserProvider";
 const ProfileInfo = () => {
 
   const {user, userStatus, userGames, gameStatus} = useContext(UserContext)
+
   return (
     <Wrapper>
 

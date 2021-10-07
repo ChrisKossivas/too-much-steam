@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 
 import { UserContext } from "../contexts/UserProvider";
@@ -10,6 +10,7 @@ const LikeButton = () => {
     singleGame,
     user,
     fetchGame,
+    setUser,
   } = useContext(UserContext);
 
   const putLike = () => {
@@ -23,17 +24,21 @@ const LikeButton = () => {
       requestAddLike
     )
       .then((res) => res.json())
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res)
+        setUser({...user, totalGamesLiked: res.data.totalGamesLiked})
+      })
       .catch((err) => {
         console.log("error!!", err);
       });
     fetchGame();
   };
-
+  
   const likeGameClick = (ev) => {
     ev.stopPropagation();
-
+    
     putLike();
+
   };
 
   return (
@@ -41,9 +46,9 @@ const LikeButton = () => {
       <LikeBtn
         onClick={(ev) => {
           likeGameClick(ev);
+          
         }}
       >
-        Yes!
       </LikeBtn>
     </Wrapper>
   );

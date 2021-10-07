@@ -13,8 +13,6 @@ const socket = io("http://localhost:8000", {
 const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [value, setValue] = useState("")
-  // const [chatUsers, setChatUsers] = useState([])
-  // const [chatAvatar, setChatAvatar] = useState([])
 
   const {
     user,
@@ -44,11 +42,6 @@ const Chat = () => {
 
   }, [])
 
-  // console.log(socket)
-
-  console.log("react msggsgs",messages)
-
-
   socket.on('send', function(msg) {
     console.log("msssgg", msg)
     setMessages([...messages, msg])
@@ -63,7 +56,6 @@ const Chat = () => {
 
   return (
     <Wrapper>
-      chat
       {messages.map((chatLog, index) => {
         return (
           <MessageContainer key={index}>
@@ -88,9 +80,10 @@ const Chat = () => {
 
 const SubmitMsg = styled.button`
 font-size: 15px;
-width: 85px;
+width: 100%;
 height: 40px;
-
+background: hotpink;
+color: white;
 `
 
 const InputInfo = styled.div`
@@ -101,19 +94,16 @@ const Wrapper = styled.form`
 position: fixed;
 bottom: 0;
 
-
 `
 
 const ChatBox = styled.input`
-width: 250px;
-height: 35px;
+width: 93%;
 
 `
 const MessageContainer = styled.ul`
 
 border: 1px solid #999;
-  display: block;
-  position: relative;
+display: block;
 
 `
 

@@ -2,6 +2,7 @@
 
 const request = require('request-promise');
 
+// GET response for specific game from steam depending on which game appid is sent with req.params
 const getSpecificGame = async (req, res) => {
   try {
 
@@ -23,6 +24,7 @@ const getSpecificGame = async (req, res) => {
   }
 }
 
+// All games response from steam library depending on which steam id is sent with req.params
 const GetPersonalGames = async (req, res) => {
 try {
   const _id = req.params._id
@@ -46,12 +48,7 @@ catch (err) {
 }
 
 
-const getTest = (req, res) => {
-
-  res.status(200).json({status: 200, data: "backend works!"})
-
-}
-
+// GET all games saved within the app
 const getGamesDb = async (req, res) => {
   try {
 
@@ -68,6 +65,8 @@ const getGamesDb = async (req, res) => {
 }
 }
 
+
+// GET all games saved within mongodb. This is to display the total likes for the top 10 list
 const getTop10GamesDb = async (req, res) => {
   try {
     const db = req.app.locals.client.db();
@@ -76,7 +75,6 @@ const getTop10GamesDb = async (req, res) => {
       totalLikes : -1,
     }).limit(10).toArray()
 
-    console.log(topGames)
     res.status(200).json({ status: 200, data: topGames, message: "all games collection!"})
   }
   catch (err) {
@@ -87,7 +85,7 @@ const getTop10GamesDb = async (req, res) => {
 }
 }
 
-
+// GET all users saved in mongodb. This is to display the potential friends list
 const getUsersDb = async (req, res) => {
   try {
     const db = req.app.locals.client.db();
@@ -106,6 +104,7 @@ const getUsersDb = async (req, res) => {
   }
 }
 
+// GET user by id 
 const getUserDbById = async (req, res) => {
 
   try {
@@ -130,6 +129,7 @@ const getUserDbById = async (req, res) => {
 
 }
 
+// PUT update on increasing the total games liked for the user and increasing the total likes for the game itself in mongodb
 const updateAddLike = async (req, res) => {
 
   try {
@@ -164,6 +164,7 @@ const updateAddLike = async (req, res) => {
   } 
 }
 
+// increase total games dislike in mongodb user object 
 const updateAddDislike = async (req, res) => {
 
   try {
@@ -195,6 +196,7 @@ const updateAddDislike = async (req, res) => {
 
 }
 
+// Add friend to friend list array within the user object in mongodb
 const updateAddFriend = async (req, res) => {
   try {
     const _id = req.params._id
@@ -228,7 +230,6 @@ const updateAddFriend = async (req, res) => {
 }
 
 module.exports = {
-  getTest,
   getUsersDb,
   getUserDbById,
   updateAddLike,

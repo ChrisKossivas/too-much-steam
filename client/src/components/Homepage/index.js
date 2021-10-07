@@ -8,7 +8,8 @@ import GameDisplay from "./GameDisplay";
 const HomePage = () => {
   const { userStatus, singleGame } = useContext(UserContext);
 
-
+  // render homepage which includes The specific game.
+  // if the user is not signed it, it will ask to sign into steam
   return (
     <Wrapper>
       <Content>

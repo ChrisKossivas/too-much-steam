@@ -5,6 +5,7 @@ import {BiLoaderCircle} from 'react-icons/bi';
 
 const Loading = () => {
 
+  // render loading icon with rotating animation
   return (
     <Wrapper>
       <LoadIcon />

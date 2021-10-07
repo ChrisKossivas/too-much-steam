@@ -13,6 +13,8 @@ const LikeButton = () => {
     setUser,
   } = useContext(UserContext);
 
+  // Function for like button. Will make a PUT request to the server to increase likes + 1 and total game like + 1 for the specific game.
+  // That is to keep track of top 10
   const putLike = () => {
     const requestAddLike = {
       method: "PUT",
@@ -34,6 +36,7 @@ const LikeButton = () => {
     fetchGame();
   };
   
+  // Function for disliking a game
   const likeGameClick = (ev) => {
     ev.stopPropagation();
     
@@ -41,6 +44,7 @@ const LikeButton = () => {
 
   };
 
+  // render Button with checkmark icon
   return (
     <Wrapper>
       <LikeBtn

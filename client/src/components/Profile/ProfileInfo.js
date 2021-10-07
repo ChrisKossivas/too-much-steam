@@ -8,6 +8,7 @@ const ProfileInfo = () => {
 
   const {user, userStatus, userGames, gameStatus} = useContext(UserContext)
 
+  // render user information to display on profile page
   return (
     <Wrapper>
 
@@ -37,7 +38,7 @@ const ProfileInfo = () => {
 
 }
 
-
+// styling
 const Stats = styled.li`
 
 margin-bottom: 10px;

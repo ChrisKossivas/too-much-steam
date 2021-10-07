@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 
 import { UserContext } from "../contexts/UserProvider";
@@ -13,6 +13,7 @@ const DislikeButton = () => {
     fetchGame,
   } = useContext(UserContext);
 
+  // Function for dislike button. Will make a PUT request to the server to increase dislikes + 1
   const putDislike = () => {
     const requestAddLike = {
       method: "PUT",
@@ -28,7 +29,7 @@ const DislikeButton = () => {
     fetchGame()
   }
 
-
+  // Function for disliking a game
   const dislikeClick = (ev) => {
 
     ev.stopPropagation();
@@ -37,7 +38,7 @@ const DislikeButton = () => {
 
 
   }
-
+  // render button with dislike X icon
   return (
     <Wrapper>
       <DislikeBtn
@@ -51,6 +52,7 @@ const DislikeButton = () => {
 
 }
 
+// styling
 const Wrapper = styled.div`
 
 `

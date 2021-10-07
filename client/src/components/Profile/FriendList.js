@@ -8,14 +8,16 @@ const FriendList = () => {
 
   const { friends, friendStatus } = useContext(UserContext);
 
+  // history to push URL to chat feature, /chat
   let history = useHistory()
 
+  // Function for useHistory. It will push URL to chat feature, /chat
   const clickToChat = () => {
     history.push("/chat")
   }
 
   if (friendStatus) {
-    
+    // render friend list in profile page
     return (
       <Wrapper>
                 <h2>

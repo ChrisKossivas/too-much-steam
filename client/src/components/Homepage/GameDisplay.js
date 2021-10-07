@@ -43,6 +43,7 @@ const GameDisplay = () => {
     setSingleGameStatus,
   ]);
 
+  // render specific game that is fetched to be either liked or disliked
   return (
     <Wrapper>
       {singleGameStatus && singleGame.success === true ? (
@@ -90,6 +91,7 @@ const GameDisplay = () => {
   );
 };
 
+// styling
 const RefreshBtn = styled.button`
 
 height: 35px;
